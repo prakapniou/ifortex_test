@@ -26,7 +26,7 @@ namespace TestTask.Services.Implementations
         /// Get the <see cref="User"> with max orders count.
         /// </summary>
         /// <returns>The <see cref="User"></returns>
-        public Task<User> GetUser()
+        public async Task<User> GetUser()
         {
             // Create grouped by user identifier order collection with userId-key & Count-value.
             var ordersGroupByUserId = _orders
@@ -46,7 +46,7 @@ namespace TestTask.Services.Implementations
             // Get user by identifier from user collection.
             var userWithMaxOrders = _users.Where(_ => _.Id==userIdWithMaxOrders).FirstOrDefaultAsync();
 
-            return userWithMaxOrders;
+            return await userWithMaxOrders;
         }
 
         /// <summary>
