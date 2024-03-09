@@ -12,6 +12,7 @@ namespace TestTask.Services.Implementations
     {
         private readonly ApplicationDbContext _context;
         private readonly DbSet<Order> _orders;
+        private readonly int _testQuantity = 10;
 
         public OrderService(ApplicationDbContext context)
         {
@@ -28,9 +29,13 @@ namespace TestTask.Services.Implementations
                 .Where(_ => (_.Price*_.Quantity)==_orders.Max(_ => _.Price*_.Quantity))
                 .FirstOrDefaultAsync();
 
-        public Task<List<Order>> GetOrders()
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Get the <see cref="Order"> collection with quantity more than definite value.
+        /// </summary>
+        /// <returns>The <see cref="Order"> collection.</returns>
+        public async Task<List<Order>> GetOrders()=>
+            await _orders
+                .Where(_ => _.Quantity>_testQuantity)
+                .ToListAsync();
     }
 }
