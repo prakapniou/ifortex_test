@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TestTask.Data;
+using TestTask.Enums;
 using TestTask.Models;
 using TestTask.Services.Interfaces;
 
@@ -22,7 +23,7 @@ namespace TestTask.Services.Implementations
         }
 
         /// <summary>
-        /// Get <see cref="User"> with max orders count.
+        /// Get the <see cref="User"> with max orders count.
         /// </summary>
         /// <returns>The <see cref="User"></returns>
         public Task<User> GetUser()
@@ -48,9 +49,13 @@ namespace TestTask.Services.Implementations
             return userWithMaxOrders;
         }
 
-        public Task<List<User>> GetUsers()
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Get the <see cref="User"> collection with inactive <see cref="UserStatus">
+        /// </summary>
+        /// <returns>The <see cref="User"></returns>
+        public async Task<List<User>> GetUsers()=>
+            await _users
+                .Where(_ => _.Status == UserStatus.Inactive)
+                .ToListAsync();
     }
 }
